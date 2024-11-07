@@ -13,6 +13,7 @@ import math
 import os
 import requests
 
+
 # ----------------------------------------
 # ----------- software license -----------
 # ----------------------------------------
@@ -61,8 +62,8 @@ def import_items():
         set_sheet_columns()
     else:
         show_app_info('Zeal outputfile specified does not exist.\n'
-                       'Please check in settings and try again.',
-                       'Missing File', 'error')
+                      'Please check in settings and try again.',
+                      'Missing File', 'error')
 
 
 # read in user's zeal outputfile and built list of items
@@ -145,10 +146,10 @@ def build_price_list(def_item_list):
                           'ReadTimeout Error', 'error')
         except urllib.error.HTTPError as error:
             show_app_info(f'HTTP error encountered: {error}\nContinuing to scan...',
-                           'HTTP Error', 'error')
+                          'HTTP Error', 'error')
         except urllib.error.URLError as error:
             show_app_info(f'URL SSL error encountered: {error}\nContinuing to scan...',
-                           'URL Error', 'error')
+                          'URL Error', 'error')
 
         # if auctions were found, run price calculator
         if len(auction_list) > 0:
@@ -242,8 +243,8 @@ def round_to_50(num, base=50):
 def build_file_list(price_list):
     if not check_file(character_path):
         show_app_info('Character ini file specified does not exist.\n'
-                       'Please check in settings and try again.',
-                       'Missing File', 'warning')
+                      'Please check in settings and try again.',
+                      'Missing File', 'warning')
         return
 
     def_price_list = []
@@ -534,7 +535,7 @@ def read_settings():
         # pop settings window so user can fix
         if settings_count != 6:
             show_app_info('Invalid Settings File.\nPlease reconfigure.',
-                           'Invalid Settings', 'warning')
+                          'Invalid Settings', 'warning')
             open_settings(False)
 
 
@@ -559,7 +560,6 @@ def open_readme():
     readme_title = ttk.Label(readme, font=info_title_large)
     readme_title.configure(text='Auction Builder Readme')
     readme_title.pack(pady=10, padx=5, fill='both')
-
 
     # ------------- basic use widgets -------------
     use_title = ttk.Label(readme, font=info_title_small)
@@ -693,7 +693,7 @@ def open_settings(optional):
             #     'You cannot run Auction Builder\nwithout setting it up first.'
             #     '\n\nAre you sure you want to exit?', 'Exit Warning', alert=True)
             confirm = show_app_info('You cannot run Auction Builder\nwithout setting it up first.'
-                '\n\nAre you sure you want to exit?', 'Exit Warning', 'yesno')
+                                    '\n\nAre you sure you want to exit?', 'Exit Warning', 'yesno')
 
             if confirm == 'Yes':
                 sys.exit()
@@ -847,7 +847,7 @@ def open_settings(optional):
     auction_entry.pack(padx=5, pady=5)
 
     # ------------- outputfile frame layout -------------
-    outputfile_label = ttk.Label(outputfile_frame, style='primary.TLabel', text='Outputfile Path', width=12)
+    outputfile_label = ttk.Label(outputfile_frame, style='primary.TLabel', text='Outputfile Path', width=15)
     outputfile_label.pack(padx=10, side='left')
 
     outputfile_entry = ttk.Entry(outputfile_frame, style='primary.TEntry', width=45, textvariable=outputfile_path)
@@ -855,7 +855,7 @@ def open_settings(optional):
     outputfile_entry.pack(padx=10, side='left')
 
     # ------------- mule ini frame layout -------------
-    mule_ini_label = ttk.Label(mule_ini_frame, style='primary.TLabel', text='Mule Ini Path', width=12)
+    mule_ini_label = ttk.Label(mule_ini_frame, style='primary.TLabel', text='Mule Ini Path', width=15)
     mule_ini_label.pack(padx=10, side='left')
 
     mule_ini_entry = ttk.Entry(mule_ini_frame, style='primary.TEntry', width=45, textvariable=mule_ini_path)
@@ -864,10 +864,10 @@ def open_settings(optional):
 
     # ------------- exclusions frame layout -------------
     label_button_frame = ttk.Frame(exclusions_frame)
-    label_button_frame.pack(padx=5, side='left')
+    label_button_frame.pack(padx=10, side='left')
 
     list_frame = ttk.Frame(exclusions_frame, width=20)
-    list_frame.pack(pady=5, padx=5, side='left')
+    list_frame.pack(pady=5, padx=10, side='left')
 
     # ------------- label button frame layout -------------
     exclusions_label = ttk.Label(label_button_frame, style='primary.TLabel', text='Item Exclusions')
@@ -898,7 +898,7 @@ def open_settings(optional):
 urllib3.disable_warnings()
 
 # set size and location parameters based on OS version
-if platform.release() == 10:
+if platform.release() == '10':
     button_font = ('Inter', 12)
     entry_font_small = ('Inter', 10)
     entry_font_large = ('Inter', 12)
@@ -909,8 +909,8 @@ if platform.release() == 10:
     listbox_font = ('Inter', 10)
     info_title_large = ('Inter', 16, 'bold')
     info_title_small = ('Inter', 12, 'bold')
-    adjust_x_pos = 7
-    adjust_y_pos = 50
+    adjust_x_pos = 9
+    adjust_y_pos = 51
 else:
     button_font = ('Inter', 10)
     entry_font_small = ('Inter', 8)
