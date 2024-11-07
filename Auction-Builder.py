@@ -6,6 +6,7 @@ import tksheet
 
 import sys
 import urllib.error
+import urllib3
 import platform
 import threading
 import math
@@ -171,7 +172,7 @@ def build_price_list(def_item_list):
 # and assemble list of prices
 def scrape_page(url):
     # open web page, read in the html, and translate into text
-    page = requests.get(url, verify='cert.pem')
+    page = requests.get(url, verify=False)
     html = page.text
     auction_list = []
     # look for the  start of the list of previous auctions
@@ -891,6 +892,10 @@ def open_settings(optional):
 # -------------------------------------------------
 # ------------- code main entry point -------------
 # -------------------------------------------------
+
+# ignore SSL certificate warnings because eqtunnelauctions
+# is getting on my last nerve
+urllib3.disable_warnings()
 
 # set size and location parameters based on OS version
 if platform.release() == 10:

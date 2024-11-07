@@ -1,0 +1,18 @@
+[config]
+page=2
+button=1
+auctions=15
+outputfile=C:/EQ-ProjectQuarm/Financier-Inventory.txt
+mule_ini=C:/EQ-ProjectQuarm/Financier_pq.proj.ini
+[exclusions]
+Rubicite Helm
+Rubicite Pauldron
+Rubicite Vambraces
+Rubicite Bracers
+Rubicite Gauntlets
+Rubicite Greaves
+Rubicite Boots
+Atramentous Shield
+White Training Sash
+High Quality Cat Pelt
+Bone Chips
