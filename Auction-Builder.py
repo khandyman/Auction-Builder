@@ -352,7 +352,7 @@ def build_file_list(price_list):
     # operation, clear the sheet, and notify user
     write_new_file(file_contents)
     clear_form()
-    show_app_info('Auction macros successfully created in .ini file.\n'
+    show_app_info('Auction macro(s) successfully created in .ini file.\n'
                   'Please log into EverQuest to see the changes.',
                   'Write Successful', 'info')
 
