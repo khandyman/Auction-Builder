@@ -347,9 +347,12 @@ def build_file_list(price_list):
         write_line(file_contents, line_to_write)
 
     # finally, call functions to perform the file write
-    # operation and clear the sheet
+    # operation, clear the sheet, and notify user
     write_new_file(file_contents)
     clear_form()
+    show_app_info('Auction macros successfully created in .ini file.\n'
+                  'Please log into EverQuest to see the changes.',
+                  'Write Successful', 'info')
 
 
 # add line parameter, with a newline, to the items list
@@ -440,6 +443,33 @@ def enable_ui():
     # settings_button.configure(state=ttk.NORMAL)
     import_button.configure(state=ttk.NORMAL)
     save_button.configure(state=ttk.NORMAL)
+
+
+# ----------------------------------------
+# --------- validation functions ---------
+# ----------------------------------------
+
+def show_app_info(msg_content, msg_title, msg_type):
+    match msg_type:
+        case 'error':
+            message = ttk.dialogs.Messagebox.show_error(msg_content, msg_title)
+        case 'warning':
+            message = ttk.dialogs.Messagebox.show_warning(msg_content, msg_title)
+        case 'info':
+            message = ttk.dialogs.Messagebox.show_info(msg_content, msg_title)
+        case 'yesno':
+            message = ttk.dialogs.Messagebox.yesno(msg_content, msg_title, alert=True)
+        case _:
+            message = ''
+
+    return message
+
+
+def check_file(file):
+    if os.path.exists(file):
+        return True
+    else:
+        return False
 
 
 # ----------------------------------------
@@ -612,32 +642,6 @@ def open_about():
     about_version.configure(text='Version 1.0\n\nCopyright (c) 2024 khandyman\nLicensed under the MIT License')
     about_version.pack(pady=20, padx=10, fill='both')
 
-
-# ----------------------------------------
-# --------- validation functions ---------
-# ----------------------------------------
-
-def show_app_info(msg_content, msg_title, msg_type):
-    match msg_type:
-        case 'error':
-            message = ttk.dialogs.Messagebox.show_error(msg_content, msg_title)
-        case 'warning':
-            message = ttk.dialogs.Messagebox.show_warning(msg_content, msg_title)
-        case 'info':
-            message = ttk.dialogs.Messagebox.show_info(msg_content, msg_title)
-        case 'yesno':
-            message = ttk.dialogs.Messagebox.yesno(msg_content, msg_title, alert=True)
-        case _:
-            message = ''
-
-    return message
-
-
-def check_file(file):
-    if os.path.exists(file):
-        return True
-    else:
-        return False
 
 # -------------------------------------------------
 # --------- settings window and functions ---------
