@@ -286,9 +286,20 @@ def build_file_list(price_list):
             # the item list count and 30, then loop to eliminate not
             # only the users start button number, but any additional
             # buttons that will be created
-            for i in range(1, total_buttons + 1):
-                if f'Page{hotkey_page}Button{i}' in line or 'uction' in line:
-                    skip_line = True
+
+            # for i in range(button_num, total_buttons + 1):
+            for i in range(button_num, total_buttons + 1):
+                search_string = f'Page{hotkey_page}Button{i}'
+                search_loc = len(search_string)
+
+                # if user's page/button pref is present, we want
+                # to skip adding this line
+                if search_string in line:
+                    # however, make sure if button_num is 1, we
+                    # don't accidentally delete existing macros
+                    # stored in button 11 or 12
+                    if not line[search_loc].isnumeric():
+                        skip_line = True
 
             # if not skipping, then add line to list
             if skip_line is False:
@@ -548,7 +559,7 @@ def open_readme():
     parent_x_pos = app.winfo_rootx()
     parent_y_pos = app.winfo_rooty()
     readme.geometry('520x620+%d+%d' % (parent_x_pos - adjust_x_pos, parent_y_pos - adjust_y_pos))
-    readme.iconbitmap('EverQuest.ico')
+    readme.iconbitmap('cashflow.ico')
 
     # ------------- readme layout (frames/separators/button) -------------
     readme_title = ttk.Label(readme, font=info_title_large)
@@ -626,7 +637,7 @@ def open_about():
     parent_x_pos = app.winfo_rootx()
     parent_y_pos = app.winfo_rooty()
     about.geometry('300x200+%d+%d' % (parent_x_pos + 10, parent_y_pos + 55))
-    about.iconbitmap('EverQuest.ico')
+    about.iconbitmap('cashflow.ico')
 
     # ------------- settings layout (frames/separators/button) -------------
     about_title = ttk.Label(about, font=info_title_large)
@@ -768,7 +779,7 @@ def open_settings(optional):
     parent_x_pos = app.winfo_rootx()
     parent_y_pos = app.winfo_rooty()
     settings.geometry('480x500+%d+%d' % (parent_x_pos + 10, parent_y_pos + 55))
-    settings.iconbitmap('EverQuest.ico')
+    settings.iconbitmap('cashflow.ico')
     settings.protocol("WM_DELETE_WINDOW", handle_close)
 
     # ------------- settings layout (frames/separators/button) -------------
@@ -936,7 +947,7 @@ app = ttk.Window(themename='flatly')
 app.geometry('520x620')
 app.title('Auction Builder')
 app.resizable(False, False)
-app.iconbitmap('EverQuest.ico')
+app.iconbitmap('cashflow.ico')
 
 style = ttk.Style()
 style.configure('primary.Outline.TButton', font=button_font, width=12)
