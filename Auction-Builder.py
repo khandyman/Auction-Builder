@@ -174,6 +174,7 @@ def build_price_list(def_item_list):
 def scrape_page(url):
     # open web page, read in the html, and translate into text
     page = requests.get(url, verify=False)
+
     html = page.text
     auction_list = []
     # look for the  start of the list of previous auctions
@@ -544,13 +545,6 @@ def open_readme():
     readme = tk.Toplevel(app)
     readme.title('Readme')
     readme.transient(app)
-    # x = app.winfo_x()
-    # y = app.winfo_y()
-    # width = app.winfo_width()
-    # height = app.winfo_height()
-    # toplevel_x = x + (width // 2) - (readme.winfo_reqwidth() // 2)
-    # toplevel_y = y + (height // 2) - (readme.winfo_reqheight() // 2)
-    # readme.geometry(f'+{toplevel_x}+{toplevel_y}')
     parent_x_pos = app.winfo_rootx()
     parent_y_pos = app.winfo_rooty()
     readme.geometry('520x620+%d+%d' % (parent_x_pos - adjust_x_pos, parent_y_pos - adjust_y_pos))
