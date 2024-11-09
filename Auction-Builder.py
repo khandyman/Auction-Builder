@@ -274,6 +274,9 @@ def build_file_list(price_list):
         button_num = int(hotkey_button)
         line_to_write = ''
         new_button = True
+        social_found = False
+        # each macro can store 30 items, so ceil the quotient of
+        # the item list count and 30,
         total_buttons = math.ceil(len(def_price_list) / 30)
 
         # read in entire ini file, excluding entries that match
@@ -282,28 +285,38 @@ def build_file_list(price_list):
         for line in file:
             skip_line = False
 
-            # each macro can store 30 items, so ceil the quotient of
-            # the item list count and 30, then loop to eliminate not
-            # only the users start button number, but any additional
-            # buttons that will be created
+            # flag system that we are in [Socials] section,
+            # because we don't want line ignoring logic
+            # to run anywhere else
+            if '[Socials]' in line:
+                social_found = True
 
-            # for i in range(button_num, total_buttons + 1):
-            for i in range(button_num, total_buttons + 1):
-                search_string = f'Page{hotkey_page}Button{i}'
-                search_loc = len(search_string)
+            # loop to eliminate not only the users start button number,
+            # but any additional buttons that will be created, only run
+            # this if socials has been found (i.e., we don't want to ignore
+            # lines other than [Socials] macros that have the same page
+            # and button as user selected
+            if social_found is True:
+                for i in range(button_num, total_buttons + 1):
+                    search_string = f'Page{hotkey_page}Button{i}'
+                    search_loc = len(search_string)
 
-                # if user's page/button pref is present, we want
-                # to skip adding this line
-                if search_string in line:
-                    # however, make sure if button_num is 1, we
-                    # don't accidentally delete existing macros
-                    # stored in button 11 or 12
-                    if not line[search_loc].isnumeric():
-                        skip_line = True
+                    # if user's page/button pref is present, we want
+                    # to skip adding this line
+                    if search_string in line:
+                        # however, make sure if button_num is 1, we
+                        # don't accidentally delete existing macros
+                        # stored in button 11 or 12
+                        if not line[search_loc].isnumeric():
+                            skip_line = True
 
             # if not skipping, then add line to list
             if skip_line is False:
                 file_contents.append(line)
+
+    # if socials does not already exist in .ini, create it
+    if social_found is False:
+        write_line(file_contents, '[Socials]')
 
     # now loop through item list to add lines for auction
     # macros to bottom of file (EQ doesn't care what order
@@ -694,11 +707,10 @@ def open_settings(optional):
         if optional is True:
             settings.destroy()
         else:
-            # confirm = ttk.dialogs.Messagebox.yesno(
-            #     'You cannot run Auction Builder\nwithout setting it up first.'
-            #     '\n\nAre you sure you want to exit?', 'Exit Warning', alert=True)
-            confirm = show_app_info('You cannot run Auction Builder\nwithout setting it up first.'
-                                    '\n\nAre you sure you want to exit?', 'Exit Warning', 'yesno')
+            confirm = show_app_info(
+                'You cannot run Auction Builder\nwithout setting it up first.'
+                '\n\nAre you sure you want to exit?', 'Exit Warning',
+                'yesno')
 
             if confirm == 'Yes':
                 sys.exit()
